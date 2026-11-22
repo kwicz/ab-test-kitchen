@@ -27,7 +27,8 @@ export function Layout({ children }: { children: ReactNode }) {
             </span>
           </Link>
           <nav className="flex items-center gap-1" aria-label="Main">
-            <NavLink href="/">The Pass</NavLink>
+            <NavLink href="/">Menu</NavLink>
+            <NavLink href="/tickets">Tickets</NavLink>
             <NavLink href="/pantry">Pantry</NavLink>
           </nav>
           <div className="ml-auto">

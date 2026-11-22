@@ -3,23 +3,23 @@ import { DECISION_LABEL, PLATFORM_NAMES, stageMeta } from '../lib/format';
 
 export function PlatformBadge({ platform }: { platform: PlatformId }) {
   return (
-    <span className="inline-flex items-center rounded-pill border border-line px-2 py-0.5 text-[11px] font-medium text-ink-700">
+    <span className="inline-flex items-center whitespace-nowrap rounded-pill border border-line px-2 py-0.5 text-[11px] font-medium text-ink-700">
       {PLATFORM_NAMES[platform]}
     </span>
   );
 }
 
 const STAGE_STYLE: Record<Stage, string> = {
-  foraging: 'bg-wash text-ink-700',
-  fermenting: 'bg-teal-50 text-teal-600',
+  draft: 'bg-wash text-ink-700',
+  running: 'bg-teal-50 text-teal-600',
   ready: 'bg-honey-50 text-honey-600',
-  served: 'bg-sage-50 text-sage-600',
+  called: 'bg-sage-50 text-sage-600',
 };
 
 export function StageBadge({ stage }: { stage: Stage }) {
   const m = stageMeta(stage);
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-xs font-medium ${STAGE_STYLE[stage]}`}>
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-pill px-2.5 py-1 text-xs font-medium ${STAGE_STYLE[stage]}`}>
       <img src={`/art/${m.art}.svg`} alt="" className="h-3.5 w-3.5" />
       {m.label}
     </span>

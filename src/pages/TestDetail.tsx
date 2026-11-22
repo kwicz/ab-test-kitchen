@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { RULES, analyze, resultsUnlocked, type Analysis } from '../../shared/stats';
 import type { Decision, Experiment } from '../../shared/types';
 import { DecisionBadge, PlatformBadge, StageBadge, StatusNote } from '../components/Badges';
@@ -56,7 +56,7 @@ function Progress({ exp, a }: { exp: Experiment; a: Analysis }) {
         />
       </div>
       <p className="mt-4 text-sm text-ink-700">
-        {a.stage === 'foraging'
+        {a.stage === 'draft'
           ? 'Not live yet.'
           : exp.endedAt
             ? `Ran ${fmtDate(exp.startedAt)} to ${fmtDate(exp.endedAt)}.`
@@ -181,7 +181,7 @@ function CallIt({ exp, a }: { exp: Experiment; a: Analysis }) {
   const btn = 'rounded-pill border px-3.5 py-1.5 text-sm transition-colors disabled:opacity-50';
 
   return (
-    <Section title={exp.decision ? 'Served' : 'Call it'}>
+    <Section title={exp.decision ? 'Called' : 'Call it'}>
       {exp.decision ? (
         <div className="flex flex-wrap items-center gap-3">
           <DecisionBadge decision={exp.decision} />
@@ -194,7 +194,7 @@ function CallIt({ exp, a }: { exp: Experiment; a: Analysis }) {
       ) : (
         <>
           <p className="mb-3 text-sm text-ink-700">
-            {a.stage === 'ready' ? 'This test is ready to taste.' : 'Not at the call rules yet. You can still call it early.'}
+            {a.stage === 'ready' ? 'This test is ready to call.' : 'Not at the call rules yet. You can still call it early.'}
           </p>
           <div className="flex flex-wrap gap-2">
             {challengers.map((v) => (
@@ -230,15 +230,16 @@ function CallIt({ exp, a }: { exp: Experiment; a: Analysis }) {
 export function TestDetail({ id }: { id: number }) {
   const { data: exp, isLoading, error } = useExperiment(id);
   const { peeking, isPeeked } = usePeeking();
+  const [, navigate] = useLocation();
 
   if (isLoading) return <div className="h-96 animate-pulse rounded-lg bg-wash" />;
   if (error || !exp) {
     return (
       <div className="py-24 text-center">
-        <img src="/art/served.svg" alt="" className="mx-auto h-14 w-14" />
+        <img src="/art/called.svg" alt="" className="mx-auto h-14 w-14" />
         <p className="display mt-4 text-3xl">{error && 'status' in error && error.status === 404 ? 'This test is not on the menu.' : 'Could not load this test.'}</p>
         <Link href="/" className="mt-4 inline-block text-sm text-teal-600 underline underline-offset-4">
-          Back to The Pass
+          Back to the Menu
         </Link>
       </div>
     );
@@ -249,9 +250,9 @@ export function TestDetail({ id }: { id: number }) {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <Link href="/" className="text-sm text-ink-500 hover:text-ink-900">
-        {'←'} The Pass
-      </Link>
+      <button type="button" onClick={() => (window.history.length > 1 ? window.history.back() : navigate('/'))} className="text-sm text-ink-500 hover:text-ink-900">
+        {'←'} Back
+      </button>
 
       <header className="mt-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -278,10 +279,10 @@ export function TestDetail({ id }: { id: number }) {
       </header>
 
       <div className="mt-8 grid gap-5">
-        {a.stage !== 'foraging' && <Progress exp={exp} a={a} />}
-        {a.stage !== 'foraging' && <Results exp={exp} a={a} unlocked={unlocked} />}
-        {a.stage === 'foraging' && (
-          <Section title="Mise en place">
+        {a.stage !== 'draft' && <Progress exp={exp} a={a} />}
+        {a.stage !== 'draft' && <Results exp={exp} a={a} unlocked={unlocked} />}
+        {a.stage === 'draft' && (
+          <Section title="Not live yet">
             <p className="text-sm text-ink-700">This test is drafted on {exp.platform === 'shopify-rollouts' ? 'Shopify' : 'the platform'} but not live yet.</p>
             <ul className="mt-3 flex flex-wrap gap-2">
               {exp.variants.map((v, i) => (
@@ -293,7 +294,7 @@ export function TestDetail({ id }: { id: number }) {
             </ul>
           </Section>
         )}
-        {a.stage !== 'foraging' && <CallIt exp={exp} a={a} />}
+        {a.stage !== 'draft' && <CallIt exp={exp} a={a} />}
       </div>
     </div>
   );

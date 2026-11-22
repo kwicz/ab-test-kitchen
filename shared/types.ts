@@ -11,11 +11,11 @@ export type PlatformId = (typeof PLATFORM_IDS)[number];
 /** Lifecycle status as reported by the testing platform. */
 export type PlatformStatus = 'draft' | 'running' | 'paused' | 'stopped';
 
-/** The call the team made once a test was served. */
+/** The call the team made once a test was called. */
 export type Decision = 'winner' | 'loser' | 'inconclusive';
 
 /** Kitchen stage, derived from platform status, timing, stats and decision. */
-export type Stage = 'foraging' | 'fermenting' | 'ready' | 'served';
+export type Stage = 'draft' | 'running' | 'ready' | 'called';
 
 export interface DailyPoint {
   /** ISO date (YYYY-MM-DD) */

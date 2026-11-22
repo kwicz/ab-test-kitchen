@@ -6,17 +6,18 @@ Styled as a Copenhagen test kitchen on a soft-summer palette (sage and teal).
 
 ## What it does
 
-- **The Pass.** A board of every test, grouped by stage:
-  - **Foraging**: drafted, not live yet
-  - **Fermenting**: live and collecting data
-  - **Ready to taste**: ready to call
-  - **Served**: called and documented
+- **Tickets.** A board of every test, grouped by stage:
+  - **Draft**: drafted, not live yet
+  - **Running**: live and collecting data
+  - **Ready**: ready to call
+  - **Called**: called and documented
 - **One rule for every platform.** Each platform reports significance its own way (frequentist, Bayesian, sequential). The app recomputes results from raw visitors and conversions with a two-sided two-proportion z-test, so every test is judged the same way.
-- **Call rules.** A test is ready to taste after at least **14 days** and either **90% confidence** or its full planned sample. The planned sample is set by a minimum detectable effect you choose per test (default 10% lift, 80% power).
+- **Call rules.** A test is ready to call after at least **14 days** and either **90% confidence** or its full planned sample. The planned sample is set by a minimum detectable effect you choose per test (default 10% lift, 80% power).
 - **Peeking switch.** One global switch in the header, saved per viewer:
   - **On:** live lift and confidence everywhere.
   - **Off:** results stay "under the lid" and the board ignores significance, so it cannot leak results. A test becomes ready once it reaches its planned sample after 14 days (fixed horizon); its results unlock then.
   - Any single test can still be opened with **Peek** or **Lift the lid**.
+- **Menu.** A spreadsheet with one row per test, sortable. While peeking is off, result columns are blurred; click a value to peek at that test, or show all for the visit.
 - **Call it.** Mark a winner, loser or inconclusive, and keep chef's notes on what you learned.
 - **Pantry.** Connectors for every platform, plus a CSV importer that accepts the platforms' own export column names.
 
@@ -85,7 +86,7 @@ server/
   repo.ts          database reads and writes
   index.ts         API routes and static hosting
 src/
-  pages/           The Pass (board), test detail, Pantry
+  pages/           Tickets (board), Menu (sheet), test detail, Pantry
   components/      cards, badges, meters, chart, peeking switch
 public/art/        single-line artwork (placeholders; swap in final files by name)
 drizzle/           SQL migrations
@@ -98,10 +99,10 @@ Single-line stroke drawings live in `public/art/`. Replace any file with final a
 | File | Where it shows |
 | --- | --- |
 | `logo.svg` | Header logo and favicon |
-| `foraging.svg` | Foraging column and badge |
-| `fermenting.svg` | Fermenting column and badge |
-| `ready.svg` | Ready to taste column and badge |
-| `served.svg` | Served column and badge, not-found page |
+| `draft.svg` | Draft column and badge |
+| `running.svg` | Running column and badge |
+| `ready.svg` | Ready column and badge |
+| `called.svg` | Called column and badge, not-found page |
 | `lid.svg` | "Under the lid" state when peeking is off |
 
 ## Demo data

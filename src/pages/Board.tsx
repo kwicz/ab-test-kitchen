@@ -1,10 +1,8 @@
-import { useMemo, useState } from 'react';
-import { analyze } from '../../shared/stats';
-import { PLATFORM_IDS, type PlatformId, type Stage } from '../../shared/types';
+import type { Stage } from '../../shared/types';
+import { Filters, useFilteredTests } from '../components/Filters';
 import { TestCard } from '../components/TestCard';
 import { useExperiments } from '../lib/api';
-import { PLATFORM_NAMES, STAGES, fmtPct } from '../lib/format';
-import { usePeeking } from '../lib/peeking';
+import { STAGES, fmtPct } from '../lib/format';
 
 function Stat({ label, value, note }: { label: string; value: string; note: string }) {
   return (
@@ -16,22 +14,14 @@ function Stat({ label, value, note }: { label: string; value: string; note: stri
   );
 }
 
-const selectClass =
-  'rounded-pill border border-line bg-card px-3 py-1.5 text-sm text-ink-900 hover:border-line-strong focus-visible:outline-2 focus-visible:outline-teal-500';
-
 export function Board() {
   const { data, isLoading, error } = useExperiments();
-  const { peeking } = usePeeking();
-  const [client, setClient] = useState('all');
-  const [platform, setPlatform] = useState<'all' | PlatformId>('all');
-
-  const analyzed = useMemo(() => (data ?? []).map((exp) => ({ exp, a: analyze(exp, { peeking }) })), [data, peeking]);
-  const clients = useMemo(() => [...new Set((data ?? []).map((e) => e.clientName))].sort(), [data]);
-  const filtered = analyzed.filter(({ exp }) => (client === 'all' || exp.clientName === client) && (platform === 'all' || exp.platform === platform));
+  const f = useFilteredTests(data);
+  const filtered = f.rows;
 
   const by = (s: Stage) => filtered.filter((x) => x.a.stage === s);
-  const served = by('served');
-  const wins = served.filter((x) => x.exp.decision === 'winner').length;
+  const called = by('called');
+  const wins = called.filter((x) => x.exp.decision === 'winner').length;
 
   if (error) return <p className="text-berry-600">Could not load tests: {error.message}</p>;
 
@@ -39,49 +29,22 @@ export function Board() {
     <div>
       <section className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
-          <p className="font-script text-2xl text-teal-500">Today's service</p>
-          <h1 className="display mt-1 text-5xl leading-[1.05] sm:text-6xl">The Pass</h1>
-          <p className="mt-3 max-w-xl text-ink-700">
-            Every A/B test across every client and platform. A test is ready to taste after{' '}
-            <strong className="font-medium text-ink-900">14 days</strong> and{' '}
-            {peeking ? (
-              <>
-                <strong className="font-medium text-ink-900">90% confidence</strong> or its full planned sample.
-              </>
-            ) : (
-              <>
-                its <strong className="font-medium text-ink-900">full planned sample</strong>. Peeking is off, so significance is not checked early.
-              </>
-            )}
-          </p>
+          <p className="font-script text-2xl text-teal-500">On the rail</p>
+          <h1 className="display mt-1 text-5xl leading-[1.05] sm:text-6xl">Tickets</h1>
+          <p className="mt-3 max-w-xl text-ink-700">Every A/B test across every client and platform.</p>
         </div>
       </section>
 
       <section className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Summary">
-        <Stat label="Fermenting" value={String(by('fermenting').length)} note="Live, still collecting" />
-        <Stat label="Ready to taste" value={String(by('ready').length)} note="Ready to call" />
-        <Stat label="Served" value={String(served.length)} note="Called and documented" />
-        <Stat label="Win rate" value={served.length ? fmtPct(wins / served.length, 0) : '—'} note={`${wins} of ${served.length} served tests`} />
+        <Stat label="Running" value={String(by('running').length)} note="Live, still collecting" />
+        <Stat label="Ready" value={String(by('ready').length)} note="Hit the call rules" />
+        <Stat label="Called" value={String(called.length)} note="Called and documented" />
+        <Stat label="Win rate" value={called.length ? fmtPct(wins / called.length, 0) : '—'} note={`${wins} of ${called.length} called tests`} />
       </section>
 
-      <section className="mt-8 flex flex-wrap items-center gap-2" aria-label="Filters">
-        <span className="eyebrow mr-1">Filter</span>
-        <select aria-label="Client" className={selectClass} value={client} onChange={(e) => setClient(e.target.value)}>
-          <option value="all">All clients</option>
-          {clients.map((c) => (
-            <option key={c}>{c}</option>
-          ))}
-        </select>
-        <select aria-label="Platform" className={selectClass} value={platform} onChange={(e) => setPlatform(e.target.value as PlatformId | 'all')}>
-          <option value="all">All platforms</option>
-          {PLATFORM_IDS.map((p) => (
-            <option key={p} value={p}>
-              {PLATFORM_NAMES[p]}
-            </option>
-          ))}
-        </select>
-        <span className="num ml-auto text-sm text-ink-500">{filtered.length} tests</span>
-      </section>
+      <div className="mt-8">
+        <Filters f={f} count={filtered.length} />
+      </div>
 
       <section className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4" aria-label="Tests by stage">
         {STAGES.map((s) => {
@@ -92,7 +55,6 @@ export function Board() {
                 <div className="flex items-center gap-2">
                   <img src={`/art/${s.art}.svg`} alt="" className="h-6 w-6" />
                   <h2 className="display text-xl leading-none">{s.label}</h2>
-                  <span className="font-script text-lg leading-none text-ink-400">{s.danish}</span>
                 </div>
                 <span className="num text-sm text-ink-500">{items.length}</span>
               </header>

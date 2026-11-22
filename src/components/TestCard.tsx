@@ -9,7 +9,7 @@ import { Meter } from './Meter';
 export function TestCard({ exp, analysis: a }: { exp: Experiment; analysis: Analysis }) {
   const { peeking, isPeeked, peek } = usePeeking();
   const unlocked = resultsUnlocked(exp, a, peeking) || isPeeked(exp.id);
-  const live = a.stage === 'fermenting' || a.stage === 'ready';
+  const live = a.stage === 'running' || a.stage === 'ready';
   const winner = exp.decisionVariantId ? exp.variants.find((v) => v.id === exp.decisionVariantId) : null;
 
   return (
@@ -72,7 +72,7 @@ export function TestCard({ exp, analysis: a }: { exp: Experiment; analysis: Anal
         </div>
       )}
 
-      {a.stage === 'foraging' && <p className="mt-3 text-xs text-ink-500">{exp.variants.length} variants planned</p>}
+      {a.stage === 'draft' && <p className="mt-3 text-xs text-ink-500">{exp.variants.length} variants planned</p>}
       {exp.decision && <p className="num mt-2 text-xs text-ink-500">{fmtInt(exp.variants.reduce((s, v) => s + v.visitors, 0))} visitors over {a.days} days</p>}
     </article>
   );

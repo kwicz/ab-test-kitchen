@@ -9,11 +9,11 @@ export const PLATFORM_NAMES: Record<PlatformId, string> = {
   'shopify-rollouts': 'Shopify Rollouts',
 };
 
-export const STAGES: { id: Stage; label: string; danish: string; blurb: string; art: string }[] = [
-  { id: 'foraging', label: 'Foraging', danish: 'sankning', blurb: 'Drafted, not yet live', art: 'foraging' },
-  { id: 'fermenting', label: 'Fermenting', danish: 'gæring', blurb: 'Live and collecting data', art: 'fermenting' },
-  { id: 'ready', label: 'Ready to taste', danish: 'klar', blurb: 'Ready to call', art: 'ready' },
-  { id: 'served', label: 'Served', danish: 'serveret', blurb: 'Called and documented', art: 'served' },
+export const STAGES: { id: Stage; label: string; blurb: string; art: string }[] = [
+  { id: 'draft', label: 'Draft', blurb: 'Drafted, not yet live', art: 'draft' },
+  { id: 'running', label: 'Running', blurb: 'Live and collecting data', art: 'running' },
+  { id: 'ready', label: 'Ready', blurb: 'Met the call rules', art: 'ready' },
+  { id: 'called', label: 'Called', blurb: 'Called and documented', art: 'called' },
 ];
 
 export const stageMeta = (s: Stage) => STAGES.find((x) => x.id === s)!;

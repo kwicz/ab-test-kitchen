@@ -181,11 +181,11 @@ export function analyze(exp: Experiment, opts: { peeking: boolean; now?: Date })
       : null;
 
   let stage: Stage;
-  if (exp.decision) stage = 'served';
-  else if (exp.status === 'draft' || !exp.startedAt) stage = 'foraging';
+  if (exp.decision) stage = 'called';
+  else if (exp.status === 'draft' || !exp.startedAt) stage = 'draft';
   else {
     const signal = opts.peeking ? Boolean(best?.significant) || sampleReached : sampleReached;
-    stage = minDaysReached && signal ? 'ready' : 'fermenting';
+    stage = minDaysReached && signal ? 'ready' : 'running';
   }
 
   return {
