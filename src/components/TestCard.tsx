@@ -55,19 +55,17 @@ export function TestCard({ exp, analysis: a }: { exp: Experiment; analysis: Anal
               </span>
             </div>
           ) : (
-            <div className="flex items-center justify-between gap-2">
-              <span className="flex items-center gap-2 text-xs text-ink-500">
-                <img src="/art/lid.svg" alt="" className="h-4 w-4 opacity-70" />
-                Results under the lid
-              </span>
-              <button
-                type="button"
-                onClick={() => peek(exp.id)}
-                className="relative z-10 rounded-pill border border-line px-2.5 py-1 text-xs text-ink-700 transition-colors hover:border-teal-300 hover:text-teal-600"
-              >
-                Peek
-              </button>
-            </div>
+            // Neutral stand-in values, blurred, so neither the number nor its color leaks the result.
+            <button
+              type="button"
+              onClick={() => peek(exp.id)}
+              aria-label={`Peek at results for ${exp.name}`}
+              title="Click to peek"
+              className="relative z-10 flex w-full cursor-pointer select-none items-baseline justify-between gap-2 blur-[5px] transition hover:blur-[3px]"
+            >
+              <span className="num text-lg font-medium text-ink-500">+00.0%</span>
+              <span className="num text-xs text-ink-500">00% confidence</span>
+            </button>
           )}
         </div>
       )}

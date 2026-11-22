@@ -2,20 +2,18 @@ import { useMemo, useState } from 'react';
 import { analyze, type Analysis } from '../../shared/stats';
 import { PLATFORM_IDS, type Experiment, type PlatformId } from '../../shared/types';
 import { PLATFORM_NAMES } from '../lib/format';
-import { usePeeking } from '../lib/peeking';
 
 export interface Row {
   exp: Experiment;
   a: Analysis;
 }
 
-/** Analyze every test for the current peeking mode and apply client/platform filters. */
+/** Analyze every test and apply client/platform filters. */
 export function useFilteredTests(data: Experiment[] | undefined) {
-  const { peeking } = usePeeking();
   const [client, setClient] = useState('all');
   const [platform, setPlatform] = useState<'all' | PlatformId>('all');
 
-  const analyzed = useMemo<Row[]>(() => (data ?? []).map((exp) => ({ exp, a: analyze(exp, { peeking }) })), [data, peeking]);
+  const analyzed = useMemo<Row[]>(() => (data ?? []).map((exp) => ({ exp, a: analyze(exp) })), [data]);
   const clients = useMemo(() => [...new Set((data ?? []).map((e) => e.clientName))].sort(), [data]);
   const rows = analyzed.filter(({ exp }) => (client === 'all' || exp.clientName === client) && (platform === 'all' || exp.platform === platform));
 

@@ -150,13 +150,11 @@ export interface Analysis {
 /**
  * Work out what stage a test is at.
  *
- * - Peeking ON: ready once it has run 14 days AND either one variant is at
- *   90% confidence or the planned sample is reached (call it flat).
- * - Peeking OFF: the significance check is skipped, so the board cannot leak
- *   results. A test is ready once it has run 14 days AND reached its planned
- *   sample. That is the classic fixed-horizon rule, so results unlock then.
+ * A running test is ready once it has run 14 days AND either one variant is at
+ * 90% confidence or the planned sample is reached (call it flat). The peeking
+ * switch only hides results; it never changes the stage.
  */
-export function analyze(exp: Experiment, opts: { peeking: boolean; now?: Date }): Analysis {
+export function analyze(exp: Experiment, opts: { now?: Date } = {}): Analysis {
   const now = opts.now ?? new Date();
   const control = exp.variants.find((v) => v.isControl) ?? exp.variants[0];
   const others = exp.variants.filter((v) => v !== control);
@@ -184,8 +182,7 @@ export function analyze(exp: Experiment, opts: { peeking: boolean; now?: Date })
   if (exp.decision) stage = 'called';
   else if (exp.status === 'draft' || !exp.startedAt) stage = 'draft';
   else {
-    const signal = opts.peeking ? Boolean(best?.significant) || sampleReached : sampleReached;
-    stage = minDaysReached && signal ? 'ready' : 'running';
+    stage = minDaysReached && (Boolean(best?.significant) || sampleReached) ? 'ready' : 'running';
   }
 
   return {

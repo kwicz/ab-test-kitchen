@@ -20,7 +20,7 @@ export function StageBadge({ stage }: { stage: Stage }) {
   const m = stageMeta(stage);
   return (
     <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-pill px-2.5 py-1 text-xs font-medium ${STAGE_STYLE[stage]}`}>
-      <img src={`/art/${m.art}.svg`} alt="" className="h-3.5 w-3.5" />
+      <img src={`/art/${m.art}.svg`} alt="" className="h-4 w-4" />
       {m.label}
     </span>
   );
@@ -28,11 +28,11 @@ export function StageBadge({ stage }: { stage: Stage }) {
 
 const DECISION_STYLE: Record<Decision, string> = {
   winner: 'bg-teal-500 text-white',
-  loser: 'bg-berry-50 text-berry-600',
+  learner: 'bg-berry-50 text-berry-600',
   inconclusive: 'bg-wash text-ink-700',
 };
 
-const DECISION_ICON: Record<Decision, string> = { winner: '↑', loser: '↓', inconclusive: '↔' };
+const DECISION_ICON: Record<Decision, string> = { winner: '↑', learner: '↓', inconclusive: '↔' };
 
 export function DecisionBadge({ decision }: { decision: Decision }) {
   return (

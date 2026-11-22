@@ -15,10 +15,10 @@ Styled as a Copenhagen test kitchen on a soft-summer palette (sage and teal).
 - **Call rules.** A test is ready to call after at least **14 days** and either **90% confidence** or its full planned sample. The planned sample is set by a minimum detectable effect you choose per test (default 10% lift, 80% power).
 - **Peeking switch.** One global switch in the header, saved per viewer:
   - **On:** live lift and confidence everywhere.
-  - **Off:** results stay "under the lid" and the board ignores significance, so it cannot leak results. A test becomes ready once it reaches its planned sample after 14 days (fixed horizon); its results unlock then.
+  - **Off:** results stay "under the lid" until a test reaches its planned sample after 14 days. Stages and counts stay the same in both modes; only the numbers are hidden.
   - Any single test can still be opened with **Peek** or **Lift the lid**.
 - **Menu.** A spreadsheet with one row per test, sortable. While peeking is off, result columns are blurred; click a value to peek at that test, or show all for the visit.
-- **Call it.** Mark a winner, loser or inconclusive, and keep chef's notes on what you learned.
+- **Call it.** Mark a winner, learner or inconclusive, and keep chef's notes on what you learned.
 - **Pantry.** Connectors for every platform, plus a CSV importer that accepts the platforms' own export column names.
 
 ## Platforms
@@ -88,13 +88,21 @@ server/
 src/
   pages/           Tickets (board), Menu (sheet), test detail, Pantry
   components/      cards, badges, meters, chart, peeking switch
-public/art/        single-line artwork (placeholders; swap in final files by name)
+public/art/        single-line artwork (SVG, traced from art-source/)
+art-source/        original drawings (PNG)
+scripts/           trace-art.py turns a drawing into a stroked SVG
 drizzle/           SQL migrations
 ```
 
 ## Artwork slots
 
-Single-line stroke drawings live in `public/art/`. Replace any file with final artwork under the same name and it appears everywhere that slot is used. Use a square viewBox (48 x 48 works), strokes only, no fill.
+Single-line stroke drawings live in `public/art/`. Each one is traced from a PNG in `art-source/`: the line is thinned to its center and written as stroked paths with a non-scaling stroke, so it stays the same weight from a 14px badge to the header. To replace one, drop a new PNG (dark line on a light ground) in `art-source/` and run:
+
+```bash
+python3 scripts/trace-art.py art-source/ready.png public/art/ready.svg
+```
+
+It needs ImageMagick and takes about a minute per drawing.
 
 | File | Where it shows |
 | --- | --- |
@@ -103,7 +111,7 @@ Single-line stroke drawings live in `public/art/`. Replace any file with final a
 | `running.svg` | Running column and badge |
 | `ready.svg` | Ready column and badge |
 | `called.svg` | Called column and badge, not-found page |
-| `lid.svg` | "Under the lid" state when peeking is off |
+| `lid.svg` | Locked results on the test page when peeking is off |
 
 ## Demo data
 

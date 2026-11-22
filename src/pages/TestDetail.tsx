@@ -202,8 +202,8 @@ function CallIt({ exp, a }: { exp: Experiment; a: Analysis }) {
                 Winner: {v.name}
               </button>
             ))}
-            <button type="button" disabled={update.isPending} onClick={() => call('loser')} className={`${btn} border-line text-berry-600 hover:border-berry-500`}>
-              Loser
+            <button type="button" disabled={update.isPending} onClick={() => call('learner')} className={`${btn} border-line text-berry-600 hover:border-berry-500`}>
+              Learner
             </button>
             <button type="button" disabled={update.isPending} onClick={() => call('inconclusive')} className={`${btn} border-line text-ink-700 hover:border-line-strong`}>
               Inconclusive
@@ -245,7 +245,7 @@ export function TestDetail({ id }: { id: number }) {
     );
   }
 
-  const a = analyze(exp, { peeking });
+  const a = analyze(exp);
   const unlocked = resultsUnlocked(exp, a, peeking) || isPeeked(exp.id);
 
   return (

@@ -20,7 +20,7 @@ export const stageMeta = (s: Stage) => STAGES.find((x) => x.id === s)!;
 
 export const DECISION_LABEL: Record<Decision, string> = {
   winner: 'Winner',
-  loser: 'Loser',
+  learner: 'Learner',
   inconclusive: 'Inconclusive',
 };
 

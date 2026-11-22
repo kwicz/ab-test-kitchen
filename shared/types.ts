@@ -12,7 +12,7 @@ export type PlatformId = (typeof PLATFORM_IDS)[number];
 export type PlatformStatus = 'draft' | 'running' | 'paused' | 'stopped';
 
 /** The call the team made once a test was called. */
-export type Decision = 'winner' | 'loser' | 'inconclusive';
+export type Decision = 'winner' | 'learner' | 'inconclusive';
 
 /** Kitchen stage, derived from platform status, timing, stats and decision. */
 export type Stage = 'draft' | 'running' | 'ready' | 'called';

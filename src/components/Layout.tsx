@@ -21,7 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-20 border-b border-line bg-canvas/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1320px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-8">
           <Link href="/" className="flex items-center gap-2.5" aria-label="A/B Test Kitchen home">
-            <img src="/art/logo.svg" alt="" className="h-8 w-8" />
+            <img src="/art/logo.svg" alt="" className="h-10 w-10" />
             <span className="display text-xl leading-none">
               A/B Test <em className="italic">Kitchen</em>
             </span>

@@ -82,7 +82,7 @@ export function Menu() {
     <div>
       <p className="font-script text-2xl text-teal-500">Every course, line by line</p>
       <h1 className="display mt-1 text-5xl leading-[1.05] sm:text-6xl">Menu</h1>
-      <p className="mt-3 max-w-xl text-ink-700">Every test on one sheet. {peeking || revealAll ? 'Results are showing.' : 'Results are blurred while peeking is off. Click any blurred value to peek at that test.'}</p>
+      <p className="mt-3 max-w-xl text-ink-700">Every test on one sheet.</p>
 
       <div className="mt-8">
         <Filters f={f} count={sorted.length}>

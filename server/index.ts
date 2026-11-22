@@ -37,7 +37,7 @@ app.get('/api/experiments/:id', async (c) => {
 });
 
 const Patch = z.object({
-  decision: z.enum(['winner', 'loser', 'inconclusive']).nullable().optional(),
+  decision: z.enum(['winner', 'learner', 'inconclusive']).nullable().optional(),
   decisionVariantId: z.number().int().nullable().optional(),
   notes: z.string().max(5000).nullable().optional(),
   mde: z.number().min(0.01).max(1).optional(),

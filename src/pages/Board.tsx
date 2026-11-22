@@ -53,7 +53,7 @@ export function Board() {
             <div key={s.id} className="flex flex-col">
               <header className="mb-3 flex items-end justify-between gap-2 border-b border-ink-900 pb-2">
                 <div className="flex items-center gap-2">
-                  <img src={`/art/${s.art}.svg`} alt="" className="h-6 w-6" />
+                  <img src={`/art/${s.art}.svg`} alt="" className="h-8 w-8" />
                   <h2 className="display text-xl leading-none">{s.label}</h2>
                 </div>
                 <span className="num text-sm text-ink-500">{items.length}</span>

@@ -55,30 +55,25 @@ describe('analyze', () => {
   const day5 = new Date('2026-01-06T00:00:00Z');
 
   it('stays running before 14 days even when significant', () => {
-    const a = analyze(makeExp({}, [1500, 1800], 20000), { peeking: true, now: day5 });
+    const a = analyze(makeExp({}, [1500, 1800], 20000), { now: day5 });
     expect(a.best?.significant).toBe(true);
     expect(a.stage).toBe('running');
   });
 
-  it('is ready after 14 days at 90% when peeking', () => {
-    const a = analyze(makeExp({}, [600, 720], 20000), { peeking: true, now: day20 });
+  it('is ready after 14 days at 90% before the full sample', () => {
+    const a = analyze(makeExp({}, [600, 720], 20000), { now: day20 });
     expect(a.sampleReached).toBe(false);
     expect(a.stage).toBe('ready');
   });
 
-  it('ignores significance when peeking is off', () => {
-    const a = analyze(makeExp({}, [600, 720], 20000), { peeking: false, now: day20 });
-    expect(a.stage).toBe('running');
-  });
-
   it('is ready when the planned sample is reached, flat or not', () => {
-    const a = analyze(makeExp({}, [1500, 1510], 60000), { peeking: false, now: day20 });
+    const a = analyze(makeExp({}, [1500, 1510], 60000), { now: day20 });
     expect(a.sampleReached).toBe(true);
     expect(a.stage).toBe('ready');
   });
 
   it('is called once a decision exists and draft when draft', () => {
-    expect(analyze(makeExp({ decision: 'winner' }, [1, 1]), { peeking: true }).stage).toBe('called');
-    expect(analyze(makeExp({ status: 'draft', startedAt: null }, [0, 0], 0), { peeking: true }).stage).toBe('draft');
+    expect(analyze(makeExp({ decision: 'winner' }, [1, 1])).stage).toBe('called');
+    expect(analyze(makeExp({ status: 'draft', startedAt: null }, [0, 0], 0)).stage).toBe('draft');
   });
 });

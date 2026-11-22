@@ -2,7 +2,8 @@
  * Peeking preference, kept per viewer in localStorage.
  *
  * - `peeking` is the global switch. Off means results stay under the lid
- *   until a test reaches its planned sample after 14 days.
+ *   until a test reaches its planned sample after 14 days. It never changes a
+ *   test's stage.
  * - `peeked` holds tests the viewer chose to open anyway.
  */
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
