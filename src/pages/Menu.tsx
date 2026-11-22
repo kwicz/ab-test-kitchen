@@ -9,7 +9,7 @@ import { PLATFORM_NAMES, STAGES, fmtLift, fmtPct } from '../lib/format';
 import { usePeeking } from '../lib/peeking';
 
 type SortKey = 'name' | 'client' | 'platform' | 'stage' | 'days' | 'sample' | 'lift' | 'confidence';
-const STAGE_ORDER: Record<Stage, number> = { ready: 0, running: 1, draft: 2, called: 3 };
+const STAGE_ORDER: Record<Stage, number> = { draft: 0, running: 1, ready: 2, called: 3 };
 
 const SORTERS: Record<SortKey, (r: Row) => string | number> = {
   name: (r) => r.exp.name.toLowerCase(),
