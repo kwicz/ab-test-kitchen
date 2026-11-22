@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/bodoni-moda/wght-italic.css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/caveat';
+
+/* ============================================================
+   A/B Test Kitchen: Copenhagen test kitchen on the soft-summer palette.
+   Same family as k.solovewi.cz, leaning into sage and teal.
+   ============================================================ */
+
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+
+  /* Surfaces */
+  --color-canvas: #f4f5f1;
+  --color-card: #ffffff;
+  --color-wash: #eceee8;
+  --color-line: #e0e3dc;
+  --color-line-strong: #c5ccc6;
+
+  /* Ink (cool green-charcoal) */
+  --color-ink-900: #22302c;
+  --color-ink-700: #46524e;
+  --color-ink-500: #6b7773;
+  --color-ink-400: #939d99;
+  --color-ink-300: #c2c9c5;
+
+  /* Teal (primary) */
+  --color-teal-50: #edf4f2;
+  --color-teal-100: #d9e8e5;
+  --color-teal-200: #bcd6d1;
+  --color-teal-300: #93bab4;
+  --color-teal-400: #5f9790;
+  --color-teal-500: #00766c;
+  --color-teal-600: #2f5c57;
+  --color-teal-700: #20403c;
+
+  /* Sage (from the portfolio ladder) */
+  --color-sage-50: #edf1eb;
+  --color-sage-100: #dde5d9;
+  --color-sage-200: #c8d4c4;
+  --color-sage-300: #b8c6b4;
+  --color-sage-400: #8aa38c;
+  --color-sage-500: #5e7861;
+  --color-sage-600: #3d5240;
+
+  /* Accents, used sparingly */
+  --color-berry-50: #f8ecef;
+  --color-berry-500: #b8657a;
+  --color-berry-600: #8f4458;
+  --color-honey-50: #f8f1e4;
+  --color-honey-300: #d4b483;
+  --color-honey-600: #8a6215;
+  --color-lilac-200: #e8d9f0;
+
+  /* Chart series (validated for CVD separation; control stays neutral) */
+  --color-series-control: #8a9490;
+  --color-series-1: #00766c;
+  --color-series-2: #d9768f;
+  --color-series-3: #9a6b0e;
+
+  --font-display: 'Bodoni Moda Variable', 'Didot', Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-script: 'Caveat Variable', cursive;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 1px 2px rgba(34, 48, 44, 0.04), 0 2px 8px rgba(34, 48, 44, 0.05);
+  --shadow-lift: 0 10px 30px rgba(34, 48, 44, 0.09), 0 2px 6px rgba(34, 48, 44, 0.05);
+
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-canvas);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    min-height: 100vh;
+    background: var(--color-canvas);
+  }
+  ::selection {
+    background: var(--color-teal-100);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-teal-500);
+    outline-offset: 2px;
+  }
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-ink-500);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

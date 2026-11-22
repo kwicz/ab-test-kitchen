@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "kitchen",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-lc", "export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH && npm run dev"],
+      "port": 5173
+    }
+  ]
+}
