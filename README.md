@@ -116,3 +116,11 @@ It needs ImageMagick and takes about a minute per drawing.
 ## Demo data
 
 All clients (Ashgrove Home, Brine & Barrel, Mosswood Outfitters, Kelp & Co. Skincare, Fennel Pet Supply) are fictional. Traffic is simulated day by day from a fixed seed, with start dates relative to today, so the board always shows a mix of stages.
+
+## What's next
+
+Ideas for where the kitchen goes from here:
+
+- **An MCP server for Claude.** Expose the dashboard through the Model Context Protocol so Claude can answer questions like "which tests are ready to call?" or "how is Brine & Barrel's free-shipping test doing?", summarize results across clients, and draft chef's notes for a call, all from the same recomputed stats the dashboard uses.
+- **Control tests from the dashboard.** Go beyond reading results: start, pause and stop experiments, set traffic splits, and push a call (winner, learner or inconclusive) back to the platform, through each platform's write API. Claude could use the same actions through the MCP server, with a person confirming each change.
+- **Google sign-in.** Lock the dashboard to the agency's Google Workspace accounts before it holds real client data.
